@@ -1,8 +1,7 @@
-namespace IWantApp.Domain.Product
+namespace _4_IWantApp.Domain.Products
 {
-    public class Category
+    public class Category : BaseEntity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+
     }
 }
