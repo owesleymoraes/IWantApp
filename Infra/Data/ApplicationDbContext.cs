@@ -9,7 +9,6 @@ namespace _4_IWantApp.Infra.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
         protected override void OnModelCreating(ModelBuilder builder)
 
         {
@@ -22,7 +21,6 @@ namespace _4_IWantApp.Infra.Data
             builder.Entity<Category>()
              .Property(p => p.Name).IsRequired();
         }
-
         protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
 
         {
