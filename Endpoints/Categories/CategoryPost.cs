@@ -3,7 +3,7 @@ using _4_IWantApp.Infra.Data;
 
 namespace _4_IWantApp.Endpoints.Categories
 {
-    public partial class CategoryPost
+    public class CategoryPost
     {
         public static string Template => "/categories";
         public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
@@ -13,7 +13,12 @@ namespace _4_IWantApp.Endpoints.Categories
         {
             var category = new Category
             {
-                Name = categoryRequest.Name
+                Name = categoryRequest.Name,
+                CreatedBy = "test",
+                CreatedOn = DateTime.Now,
+                EditedBy = "test",
+                EditedOn = DateTime.Now,
+
             };
 
             context.Categories.Add(category);
