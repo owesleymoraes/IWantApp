@@ -1,6 +1,8 @@
+using Flunt.Notifications;
+
 namespace _4_IWantApp.Domain.Products
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity : Notifiable<Notification>
     {
         public BaseEntity()
         {
