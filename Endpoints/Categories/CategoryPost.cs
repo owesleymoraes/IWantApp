@@ -11,16 +11,12 @@ namespace _4_IWantApp.Endpoints.Categories
 
         public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
         {
-            var category = new Category
+            var category = new Category(categoryRequest.Name, "Wesley", "Wesley");
+
+            if (!category.IsValid)
             {
-                Name = categoryRequest.Name,
-                CreatedBy = "test",
-                CreatedOn = DateTime.Now,
-                EditedBy = "test",
-                EditedOn = DateTime.Now,
-
-            };
-
+                return Results.BadRequest(category.Notifications);
+            }
             context.Categories.Add(category);
             context.SaveChanges();
 

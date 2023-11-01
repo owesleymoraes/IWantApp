@@ -1,5 +1,6 @@
 
 using _4_IWantApp.Domain.Products;
+using Flunt.Notifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace _4_IWantApp.Infra.Data
@@ -20,6 +21,8 @@ namespace _4_IWantApp.Infra.Data
 
             builder.Entity<Category>()
              .Property(p => p.Name).IsRequired();
+
+            builder.Ignore<Notification>();
         }
         protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
 
