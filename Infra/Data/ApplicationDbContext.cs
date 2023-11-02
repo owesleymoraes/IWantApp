@@ -15,6 +15,11 @@ namespace _4_IWantApp.Infra.Data
         protected override void OnModelCreating(ModelBuilder builder)
 
         {
+
+           // chama a classe pai que nesse caso é IdentityDbContext
+           // caso não tivesse daria um erro : IdentityUserLogin<string>' requires a primary key
+            base.OnModelCreating(builder);
+
             builder.Entity<Product>()
              .Property(p => p.Name).IsRequired();
 
