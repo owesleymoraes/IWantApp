@@ -13,8 +13,19 @@ namespace _4_IWantApp.Endpoints.Categories
         public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, ApplicationDbContext context)
         {
             Category category = context.Categories.Where(item => item.Id == id).FirstOrDefault();
-            category.Name = categoryRequest.Name;
-            category.Active = categoryRequest.Active;
+
+            if (category == null)
+            {
+                return Results.BadRequest();
+            }
+
+            category.EditInfo(categoryRequest.Name, categoryRequest.Active);
+
+            if (!category.IsValid)
+            {
+                return Results.ValidationProblem(category.Notifications.ConvertToProblemDetail());
+            }
+
             context.SaveChanges();
 
             return Results.Ok();
