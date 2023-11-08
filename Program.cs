@@ -1,11 +1,15 @@
+using System.Text;
 using _4_IWantApp.Endpoints.Categories;
 using _4_IWantApp.Endpoints.Employees;
 using _4_IWantApp.Endpoints.Security;
 using _4_IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionString:IWantDb"]);
+builder.Services.AddSqlServer<ApplicationDbContext>(
+    builder.Configuration["ConnectionString:IWantDb"]);
 builder.Services
 .AddIdentity<IdentityUser, IdentityRole>(options =>
 {
@@ -17,6 +21,27 @@ builder.Services
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateActor = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtBearerTokenSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtBearerTokenSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Secretkey"]))
+    };
+});
+
+
+
 builder.Services.AddScoped<QueryAllUserWithClaimName>();
 
 // Add services to the container.
@@ -25,6 +50,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

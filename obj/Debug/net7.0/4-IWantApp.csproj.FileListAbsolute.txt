@@ -76,3 +76,4 @@ D:\app_web\c#-udemy\api\4-IWantApp\obj\Debug\net7.0\ref\4-IWantApp.dll
 D:\app_web\c#-udemy\api\4-IWantApp\bin\Debug\net7.0\Flunt.dll
 D:\app_web\c#-udemy\api\4-IWantApp\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 D:\app_web\c#-udemy\api\4-IWantApp\bin\Debug\net7.0\Dapper.dll
+D:\app_web\c#-udemy\api\4-IWantApp\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
