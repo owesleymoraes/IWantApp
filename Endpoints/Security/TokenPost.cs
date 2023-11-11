@@ -15,8 +15,16 @@ namespace _4_IWantApp.Endpoints.Security
         public static Delegate Handle => Action;
 
         [AllowAnonymous]
-        public static IResult Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public static IResult Action(
+            LoginRequest loginRequest,
+            IConfiguration configuration,
+            UserManager<IdentityUser> userManager,
+            ILogger<TokenPost> log
+            )
         {
+            // log para monitoramento na request
+            log.LogInformation("Getting token");
+
             var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
 
             if (user == null)
@@ -44,7 +52,8 @@ namespace _4_IWantApp.Endpoints.Security
                 SigningCredentials =
                     new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Audience = configuration["JwtBearerTokenSettings:Audience"],
-                Issuer = configuration["JwtBearerTokenSettings:Issuer"]
+                Issuer = configuration["JwtBearerTokenSettings:Issuer"],
+                Expires = DateTime.UtcNow.AddHours(1)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

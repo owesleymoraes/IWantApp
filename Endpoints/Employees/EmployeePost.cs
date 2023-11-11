@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using _4_IWantApp.Endpoints.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace _4_IWantApp.Endpoints.Employees
@@ -10,11 +11,13 @@ namespace _4_IWantApp.Endpoints.Employees
         public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
         public static Delegate Handle => Action;
 
-        public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
+        [Authorize(Policy = "EmployeePolicy")]
+        public static async Task<IResult> Action(EmployeeRequest employeeRequest, HttpContext http, UserManager<IdentityUser> userManager)
         {
-            IdentityUser user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
+            string userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            IdentityUser newUser = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
 
-            IdentityResult result = userManager.CreateAsync(user, employeeRequest.Password).Result;
+            IdentityResult result = await userManager.CreateAsync(newUser, employeeRequest.Password);
 
             if (!result.Succeeded)
             {
@@ -24,11 +27,12 @@ namespace _4_IWantApp.Endpoints.Employees
             var userClaims = new List<Claim>
             {
                 new Claim("EmployeeCode", employeeRequest.EmployeeCode),
-                new Claim("Name", employeeRequest.Name)
+                new Claim("Name", employeeRequest.Name),
+                new Claim("CreatedBy", userId)
             };
 
-            IdentityResult claimResult = userManager
-            .AddClaimsAsync(user, userClaims).Result;
+            IdentityResult claimResult = await userManager
+            .AddClaimsAsync(newUser, userClaims);
 
             if (!claimResult.Succeeded)
             {
@@ -40,7 +44,7 @@ namespace _4_IWantApp.Endpoints.Employees
                 return Results.BadRequest(claimResult.Errors.First());
             }
 
-            return Results.Created($"/employees/{user.Id}", user.Id);
+            return Results.Created($"/employees/{newUser.Id}", newUser.Id);
 
         }
     }

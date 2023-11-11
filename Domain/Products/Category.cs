@@ -28,10 +28,12 @@ namespace _4_IWantApp.Domain.Products
             Validate();
 
         }
-        public void EditInfo(string name, bool active)
+        public void EditInfo(string name, bool active, string editedBy)
         {
             Active = active;
             Name = name;
+            EditedBy = editedBy;
+            EditedOn = DateTime.Now;
 
             Validate();
         }
