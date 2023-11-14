@@ -16,8 +16,8 @@ namespace _4_IWantApp.Infra.Data
 
         {
 
-           // chama a classe pai que nesse caso é IdentityDbContext
-           // caso não tivesse daria um erro : IdentityUserLogin<string>' requires a primary key
+            // chama a classe pai que nesse caso é IdentityDbContext
+            // caso não tivesse daria um erro : IdentityUserLogin<string>' requires a primary key
             base.OnModelCreating(builder);
 
             builder.Entity<Product>()
@@ -25,6 +25,9 @@ namespace _4_IWantApp.Infra.Data
 
             builder.Entity<Product>()
              .Property(p => p.Description).HasMaxLength(255);
+
+            builder.Entity<Product>()
+             .Property(p => p.Price).HasColumnType("decimal(10,2)").IsRequired();
 
             builder.Entity<Category>()
              .Property(p => p.Name).IsRequired();

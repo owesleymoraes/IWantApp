@@ -11,14 +11,23 @@ namespace _4_IWantApp.Domain.Products
         public bool HasStock { get; private set; }
         public string Description { get; private set; }
         public bool Active { get; private set; } = true;
+        public decimal Price { get; private set; }
         private Product() { }
 
-        public Product(string name, Category category, string description, bool hasStock, string createdBy)
+        public Product(
+            string name,
+            Category category,
+            string description,
+            bool hasStock,
+            string createdBy,
+            decimal price
+            )
         {
             Name = name;
             Category = category;
             Description = description;
             HasStock = hasStock;
+            Price = price;
 
             CreatedBy = createdBy;
             EditedBy = createdBy;
@@ -34,7 +43,8 @@ namespace _4_IWantApp.Domain.Products
             var contract = new Contract<Product>()
             .IsNotNullOrEmpty(Name, "Name")
             .IsGreaterOrEqualsThan(Name, 3, "Name")
-            .IsNotNull(Category, "Category")
+            .IsGreaterOrEqualsThan(Price, 1, "Price")
+            .IsNotNull(Category, "Category", "Category not found")
             .IsNotNullOrEmpty(Description, "Description")
             .IsNotNullOrEmpty(CreatedBy, "CreatedBy")
             .IsNotNullOrEmpty(EditedBy, "EditedBy");

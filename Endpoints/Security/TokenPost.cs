@@ -19,7 +19,8 @@ namespace _4_IWantApp.Endpoints.Security
             LoginRequest loginRequest,
             IConfiguration configuration,
             UserManager<IdentityUser> userManager,
-            ILogger<TokenPost> log
+            ILogger<TokenPost> log,
+            IWebHostEnvironment environment
             )
         {
             // log para monitoramento na request
@@ -53,7 +54,9 @@ namespace _4_IWantApp.Endpoints.Security
                     new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Audience = configuration["JwtBearerTokenSettings:Audience"],
                 Issuer = configuration["JwtBearerTokenSettings:Issuer"],
-                Expires = DateTime.UtcNow.AddHours(1)
+                Expires =
+                environment.IsDevelopment() || environment.IsStaging()
+                ? DateTime.UtcNow.AddYears(1) : DateTime.UtcNow.AddHours(1)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
