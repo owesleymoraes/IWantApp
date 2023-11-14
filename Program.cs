@@ -1,5 +1,6 @@
 using System.Text;
 using _4_IWantApp.Endpoints.Categories;
+using _4_IWantApp.Endpoints.Clients;
 using _4_IWantApp.Endpoints.Employees;
 using _4_IWantApp.Endpoints.Security;
 using _4_IWantApp.Infra.Data;
@@ -85,6 +86,7 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(GetAllEmployee.Template, GetAllEmployee.Methods, GetAllEmployee.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 
 app.UseExceptionHandler("/error");
 
