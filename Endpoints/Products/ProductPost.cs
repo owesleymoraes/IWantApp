@@ -19,7 +19,7 @@ namespace _4_IWantApp.Endpoints.Products
         {
             string userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == productRequest.CategoryId);
-            var product = new Product(productRequest.Name, category, productRequest.Description, productRequest.HasStock, userId);
+            var product = new Product(productRequest.Name, category, productRequest.Description, productRequest.HasStock, userId, productRequest.price);
 
             if (!product.IsValid)
             {

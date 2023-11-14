@@ -20,7 +20,9 @@ namespace _4_IWantApp.Endpoints.Products
                  p.Category.Name,
                  p.Description,
                  p.HasStock,
-                 p.Active));
+                 p.Active,
+                 p.Price
+                 ));
             return Results.Ok(results);
 
         }

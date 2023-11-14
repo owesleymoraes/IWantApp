@@ -5,5 +5,7 @@ namespace _4_IWantApp.Endpoints.Categories
         string CategoryName,
         string Description,
         bool HasStock,
-        bool Active);
+        bool Active,
+        decimal Price
+        );
 }

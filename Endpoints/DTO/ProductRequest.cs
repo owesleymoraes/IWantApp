@@ -5,8 +5,8 @@ namespace _4_IWantApp.Endpoints.Categories
         Guid CategoryId,
         string Description,
         bool HasStock,
-        bool active);
-
-
+        bool active,
+        decimal price
+        );
 
 }
