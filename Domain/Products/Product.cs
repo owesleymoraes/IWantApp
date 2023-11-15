@@ -1,4 +1,5 @@
 using System.Diagnostics.Contracts;
+using _4_IWantApp.Domain.Orders;
 using Flunt.Validations;
 
 namespace _4_IWantApp.Domain.Products
@@ -12,6 +13,8 @@ namespace _4_IWantApp.Domain.Products
         public string Description { get; private set; }
         public bool Active { get; private set; } = true;
         public decimal Price { get; private set; }
+        public ICollection<Order> Orders { get; private set; }
+
         private Product() { }
 
         public Product(

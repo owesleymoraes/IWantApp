@@ -87,6 +87,7 @@ app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle)
 app.MapMethods(GetAllEmployee.Template, GetAllEmployee.Methods, GetAllEmployee.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
+app.MapMethods(ClientGetAll.Template, ClientGetAll.Methods, ClientGetAll.Handle);
 
 app.UseExceptionHandler("/error");
 

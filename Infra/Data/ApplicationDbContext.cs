@@ -4,6 +4,7 @@ using Flunt.Notifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using _4_IWantApp.Domain.Orders;
 
 namespace _4_IWantApp.Infra.Data
 {
@@ -11,6 +12,7 @@ namespace _4_IWantApp.Infra.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
 
@@ -30,7 +32,18 @@ namespace _4_IWantApp.Infra.Data
              .Property(p => p.Price).HasColumnType("decimal(10,2)").IsRequired();
 
             builder.Entity<Category>()
-             .Property(p => p.Name).IsRequired();
+             .Property(c => c.Name).IsRequired();
+
+            builder.Entity<Order>()
+             .Property(o => o.ClientId).IsRequired();
+
+            builder.Entity<Order>()
+             .Property(o => o.DeliveryAddress).IsRequired();
+
+            builder.Entity<Order>()
+             .HasMany(o => o.Products)
+             .WithMany(o => o.Orders)
+             .UsingEntity(x => x.ToTable("OrderProduct"));
 
             builder.Ignore<Notification>();
         }
